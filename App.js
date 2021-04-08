@@ -11,16 +11,15 @@ import { SafeAreaView } from "react-native"
 import { NavigationContainer } from '@react-navigation/native';
 // import { RNPhotoScrollview } from "./src/RNPhotoScrollview/RNPhotoScrollview";
 // import { RNFlatList } from "./src/RNFlatList/RNFlatList";
-import { SharedElementsIndex } from "./src/RNSharedElements/index";
+// import { SharedElementsIndex } from "./src/RNSharedElements/index";
+import { RNSharedElementsStep3 } from "./src/RNSharedElementsStep3/Navigation";
 import { WebView } from "react-native-webview"
 
 
 const App: () => React$Node = () => {
 
   return (
-    // <RNPhotoScrollview />
-    // <RNFlatList />
-    <SharedElementsIndex />
+    <RNSharedElementsStep3 />
   );
 };
 
