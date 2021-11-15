@@ -1,21 +1,57 @@
 import React from "react";
 import {
-    View,
     Text,
-    StatusBar,
-    SafeAreaView,
-    FlatList,
-    StyleSheet,
+    Image,
     TouchableOpacity
 } from "react-native";
-import { travelUpList } from "./data";
-import { width, SPACING } from "./../RNSharedElements/common/theme";
+import { SharedElement } from "react-navigation-shared-element";
 
 
-export const TravelUpDetails = () => {
+export const TravelUpDetails = ({ route, navigation }) => {
+
+    const item = route.params.item
+
     return (
-        <Text>
-            DETAILS
-        </Text>
+        <>
+            <SharedElement style={{ flex: 1, width: "100%", height: "100%" }} id={`item.${item.key}.image`}>
+                <Image source={{ uri: item.utl }} style={{ flex: 1, width: "100%", height: "100%" }} />
+            </SharedElement>
+            <SharedElement id={`item.${item.key}.name`}>
+                <Text style={{
+                    position: "absolute",
+                    color: "white",
+                    textTransform: "uppercase",
+                    fontSize: 36,
+                    bottom: 40,
+                    left: 40,
+                    fontWeight: "bold"
+                }}>
+                    {item.name}
+                </Text>
+            </SharedElement>
+            <TouchableOpacity style={{
+                position: "absolute",
+                top: 40,
+                left: 40,
+            }} onPress={() => navigation.goBack()}>
+                <Text style={{
+                    color: "white",
+                    textTransform: "uppercase",
+                    fontSize: 24,
+                }}>
+                    Back
+                </Text>
+            </TouchableOpacity>
+        </>
     )
+}
+
+
+TravelUpDetails.sharedElements = (route, otherRoute, showing) => {
+    const item = route.params.item;
+    return [{
+        id: `item.${item.key}.image`
+    }, {
+        id: `item.${item.key}.name`
+    },]
 }

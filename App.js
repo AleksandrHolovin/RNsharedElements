@@ -7,13 +7,14 @@
  */
 
 import React, { setState } from 'react';
-import { SafeAreaView } from "react-native"
+import { SafeAreaView, Text } from "react-native"
 import { NavigationContainer } from '@react-navigation/native';
 // import { RNPhotoScrollview } from "./src/RNPhotoScrollview/RNPhotoScrollview";
 // import { RNFlatList } from "./src/RNFlatList/RNFlatList";
 // import { SharedElementsIndex } from "./src/RNSharedElements/index";
 import { RNSharedElementsStep3 } from "./src/RNSharedElementsStep3/Navigation";
-import { WebView } from "react-native-webview"
+// import CircularProgressBar from "./src/RNCircleLoader/index";
+import { RNLineLoader } from "./src/RNLineLoader/RNLineLoader";
 
 
 const App: () => React$Node = () => {

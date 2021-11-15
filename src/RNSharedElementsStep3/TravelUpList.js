@@ -13,6 +13,7 @@ import {
 import { travelUp } from "./data";
 import { width, SPACING } from "./../RNSharedElements/common/theme";
 import { Directions, FlingGestureHandler, State } from "react-native-gesture-handler";
+import { SharedElement } from "react-navigation-shared-element";
 
 
 const IMAGE_WIDTH = width * 0.90;
@@ -41,81 +42,54 @@ export const TravelUpList = ({
     })
 
     return (
-        <FlingGestureHandler
-            key="UP"
-            directions={Directions.UP}
-            onHandlerStateChange={ev => {
-                if (ev.nativeEvent.state === State.END) {
-                    if (activeIndex === travelUp.length - 1) {
-                        return;
-                    }
-                    setActiveSilde(activeIndex + 1)
-                }
-            }}
-        >
-            <FlingGestureHandler
-                key="DOWN"
-                directions={Directions.DOWN}
-                onHandlerStateChange={ev => {
-                    if (ev.nativeEvent.state === State.END) {
-                        if (activeIndex === 0) {
-                            return;
-                        }
-                        setActiveSilde(activeIndex - 1)
-                    }
+        <SafeAreaView style={{ flex: 1, backgroundColor: "#1E1D1D" }}>
+            <StatusBar hidden />
+            <FlatList
+                data={travelUp}
+                keyExtractor={item => item.id}
+                // scrollEnabled={false}
+                // contentContainerStyle={{
+                //     flex: 1,
+                //     alignItems: "center",
+                //     // justifyContent: "center"
+                // }}
+                // CellRendererComponent={({ index, item, children, style, ...props }) => {
+
+                //     const newStyle = [
+                //         style,
+                //         {
+                //             zIndex: travelUp.length - index,
+                //             left: -IMAGE_WIDTH / 2,
+                //             right: -IMAGE_HEIGHT / 2
+                //         }
+                //     ]
+
+                //     return <View index={index} {...props} style={newStyle}>
+                //         {children}
+                //     </View>
+                // }}
+                renderItem={({ item, index }) => {
+                    return (
+                        <View style={{ marginVertical: 20 }}>
+                            <TouchableOpacity onPress={() => {
+                                navigation.navigate("Details", { item })
+                            }}>
+                                <SharedElement style={styles.image} id={`item.${item.key}.image`}>
+                                    <Image source={{ uri: item.utl }} style={styles.image} />
+                                </SharedElement>
+                                <View style={{ position: "absolute", bottom: 20, left: 20 }}>
+                                    <SharedElement id={`item.${item.key}.name`}>
+                                        <Text style={styles.name}>
+                                            {item.name}
+                                        </Text>
+                                    </SharedElement>
+                                </View>
+                            </TouchableOpacity>
+                        </View>
+                    )
                 }}
-            >
-                <SafeAreaView style={{ flex: 1, backgroundColor: "#1E1D1D" }}>
-                    <StatusBar hidden />
-                    <FlatList
-                        data={travelUp}
-                        keyExtractor={item => item.id}
-                        scrollEnabled={false}
-                        contentContainerStyle={{
-                            flex: 1,
-                            alignItems: "center",
-                            // justifyContent: "center"
-                        }}
-                        CellRendererComponent={({ index, item, children, style, ...props }) => {
-
-                            const newStyle = [
-                                style,
-                                {
-                                    zIndex: travelUp.length - index,
-                                    left: -IMAGE_WIDTH / 2,
-                                    right: -IMAGE_HEIGHT / 2
-                                }
-                            ]
-
-                            return <View index={index} {...props} style={newStyle}>
-                                {children}
-                            </View>
-                        }}
-                        renderItem={({ item, index }) => {
-
-                            const inputRange = [index - 1, index, index + 1]
-                            const translateY = animatedValue.interpolate({
-                                inputRange,
-                                outputRange: [-30, 0, 30]
-                            })
-
-                            return (
-                                <Animated.View style={{ position: "absolute", transform: [{ translateY }] }}>
-                                    <TouchableOpacity>
-                                        <Image source={{ uri: item.utl }} style={styles.image} />
-                                        <View style={{ position: "absolute", bottom: 20, left: 20 }}>
-                                            <Text style={styles.name}>
-                                                {item.name}
-                                            </Text>
-                                        </View>
-                                    </TouchableOpacity>
-                                </Animated.View>
-                            )
-                        }}
-                    />
-                </SafeAreaView>
-            </FlingGestureHandler>
-        </FlingGestureHandler>
+            />
+        </SafeAreaView>
     )
 }
 
